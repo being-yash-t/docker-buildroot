@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,7 +8,6 @@ RUN apt-get update && \
     bash \
     bc \
     binutils \
-    build-essential \
     bzip2 \
     cpio \
     g++ \
@@ -24,23 +23,30 @@ RUN apt-get update && \
     whois \
     patch \
     perl \
-    python \
+    python3 \
+    python3-pip \
     rsync \
     sed \
     tar \
-    vim \ 
+    vim \
+    file \
     unzip \
     wget \
     bison \
     flex \
     libssl-dev \
-    libfdt-dev
+    libfdt-dev \
+    cmake \
+    ninja-build \
+    pkg-config \
+    libglib2.0-dev \
+    libpixman-1-dev \
+    libpython3-dev
 
-# Sometimes Buildroot need proper locale, e.g. when using a toolchain
-# based on glibc.
-RUN locale-gen en_US.utf8
+# Set locale
+RUN locale-gen en_US.UTF-8
 
-RUN git clone git://git.buildroot.net/buildroot --depth=1 --branch=2020.08 /root/buildroot
+RUN git clone git://git.buildroot.net/buildroot --depth=1 --branch=2024.08 /root/buildroot
 
 WORKDIR /root/buildroot
 
@@ -52,4 +58,4 @@ RUN touch kernel.config
 VOLUME /root/buildroot/dl
 VOLUME /buildroot_output
 
-RUN ["/bin/bash"]
+CMD ["/bin/bash"]

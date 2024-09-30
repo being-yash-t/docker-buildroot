@@ -6,14 +6,14 @@ Hub][hub].
 To get started build the Docker image.
 
 ``` shell
-$ docker build -t "advancedclimatesystems/buildroot" .
+$ docker build -t "rideos/buildroot" .
 ```
 
 Create a [data-only container][data-only] to use as build and download
 cache and to store your build products.
 
 ``` shell
-$ docker run -i --name buildroot_output advancedclimatesystems/buildroot /bin/echo "Data only."
+$ docker run -i --name buildroot_output rideos/buildroot /bin/echo "Data only."
 ```
 
 This container has 2 volumes at `/root/buildroot/dl` and `/buildroot_output`.
