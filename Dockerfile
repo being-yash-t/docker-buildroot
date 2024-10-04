@@ -64,3 +64,6 @@ RUN echo "\n" >> /root/buildroot/package/Config.in
 RUN echo "menu \"RIDEOS\"" >> /root/buildroot/package/Config.in
 RUN echo "        source \"/buildroot_output/rideosqt/Config.in\"" >> /root/buildroot/package/Config.in
 RUN echo "endmenu" >> /root/buildroot/package/Config.in
+
+RUN git config --global user.email "yasht3210@gmail.com"
+RUN git config --global user.name "Yash Thakur"
