@@ -41,7 +41,8 @@ RUN apt-get update && \
     pkg-config \
     libglib2.0-dev \
     libpixman-1-dev \
-    libpython3-dev
+    libpython3-dev \
+    squashfs-tools 
 
 # Set locale
 RUN locale-gen en_US.UTF-8
@@ -60,10 +61,30 @@ VOLUME /buildroot_output
 
 CMD ["/bin/bash"]
 
+RUN ln -s /buildroot_output/rideosqt /root/buildroot/package/rideosqt
+
 RUN echo "\n" >> /root/buildroot/package/Config.in
-RUN echo "menu \"RIDEOS\"" >> /root/buildroot/package/Config.in
-RUN echo "        source \"/buildroot_output/rideosqt/Config.in\"" >> /root/buildroot/package/Config.in
+RUN echo "menu \"rideosqt\"" >> /root/buildroot/package/Config.in
+RUN echo "        source \"package/rideosqt/Config.in\"" >> /root/buildroot/package/Config.in
 RUN echo "endmenu" >> /root/buildroot/package/Config.in
 
 RUN git config --global user.email "yasht3210@gmail.com"
 RUN git config --global user.name "Yash Thakur"
+
+RUN mkdir -p board/raspberrypizero2w/rootfs_overlay/etc/systemd/system
+RUN touch board/raspberrypizero2w/rootfs_overlay/etc/systemd/system/rideosqt.service
+RUN echo $'[Unit] \n\
+Description=rideosqt \n\
+After=local-fs.target \n\
+Before=network.target bluetooth.service \n\
+\n\
+[Service] \n\
+ExecStart=/usr/bin/rideosqt \n\
+Restart=always \n\
+StandardOutput=null \n\
+\n\
+[Install] \n\
+WantedBy=multi-user.target' >> board/raspberrypizero2w/rootfs_overlay/etc/systemd/system/rideosqt.service
+
+RUN mkdir -p board/raspberrypizero2w/rootfs_overlay/etc/systemd/system/multi-user.target.wants
+RUN ln -s /etc/systemd/system/rideosqt.service board/raspberrypizero2w/rootfs_overlay/etc/systemd/system/multi-user.target.wants/rideosqt.service
