@@ -59,3 +59,8 @@ VOLUME /root/buildroot/dl
 VOLUME /buildroot_output
 
 CMD ["/bin/bash"]
+
+RUN echo "\n" >> /root/buildroot/package/Config.in
+RUN echo "menu \"RIDEOS\"" >> /root/buildroot/package/Config.in
+RUN echo "        source \"/buildroot_output/rideosqt/Config.in\"" >> /root/buildroot/package/Config.in
+RUN echo "endmenu" >> /root/buildroot/package/Config.in
