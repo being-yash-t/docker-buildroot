@@ -31,6 +31,7 @@ DOCKER_RUN="docker run
     --rm
     -ti
     --volumes-from buildroot_output
+    -v $(pwd)/../buildroot:$BUILDROOT_DIR
     -v $(pwd)/data:$BUILDROOT_DIR/data
     -v $(pwd)/external:$BUILDROOT_DIR/external
     -v $(pwd)/rootfs_overlay:$BUILDROOT_DIR/rootfs_overlay
